@@ -1,6 +1,5 @@
-package com.example.barugabaca.ui.theme
+package com.mobile.barugabaca.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -13,13 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0x8CB9BD),
-    secondary = Color(0xECB159),
+    primary = Color(0xFF8CBCBD),
+    secondary = Color(0xFF8CB9BD),
+    tertiary = Color(0xFFECB159),
+    background = Color(0xFFFEFBF6),
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0x8CB9BD),
-    secondary = Color(0xECB159),
+    primary = Color(0xFF8CBCBD),
+    secondary = Color(0xFF8CB9BD),
+    tertiary = Color(0xFFECB159),
+    background = Color(0xFFFEFBF6),
+
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

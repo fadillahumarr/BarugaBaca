@@ -1,46 +1,48 @@
-package com.example.barugabaca
+package com.mobile.barugabaca.presentation.login
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.barugabaca.ui.theme.PrimaryColor
+import com.mobile.barugabaca.presentation.components.CustomOutlinedTextField
+import com.mobile.barugabaca.presentation.components.PrimaryButton
+import com.mobile.barugabaca.ui.theme.PrimaryColor
 
 class LoginActivity : AppCompatActivity() {
+    private val loginViewModel: LoginViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                LoginContent()
+                LoginContent(loginViewModel)
             }
         }
     }
 }
 
-// Membuat composable untuk form login
+// Composable function for login content
 @Composable
-fun LoginContent() {
-    // State untuk email dan password
+fun LoginContent(loginViewModel: LoginViewModel) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isButtonClicked by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,54 +52,41 @@ fun LoginContent() {
     ) {
         Text(
             text = "Masuk",
-            style = androidx.compose.ui.text.TextStyle(
+            style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start,
-                fontSize = 32.sp,
-                )
+                fontSize = 32.sp
+            )
         )
         Text(
-            text="Silahkan masuk untuk melanjutkan",
+            text = "Silahkan masuk untuk melanjutkan",
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(top = 10.dp),
-            style = androidx.compose.ui.text.TextStyle(
+            style = TextStyle(
                 color = Color.Gray,
                 fontSize = 16.sp
             )
-
         )
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        //Input Email
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PrimaryColor,
-                focusedLabelColor = PrimaryColor,
-                cursorColor = PrimaryColor
+        Column(modifier = Modifier.padding(16.dp)) {
+            CustomOutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = "Email"
             )
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Input Password
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Kata Sandi") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PrimaryColor,
-                focusedLabelColor = PrimaryColor,
-                cursorColor = PrimaryColor
-            ),
-            visualTransformation = PasswordVisualTransformation()
-        )
+            CustomOutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = "Kata Sandi",
+                isPassword = true
+            )
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -105,34 +94,33 @@ fun LoginContent() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
-            Button(
+            PrimaryButton(
+                text = "MASUK",
                 onClick = {
-
-                    //Masuk ke main activity
-                    val intent = Intent(context, MainActivity::class.java)
-                    context.startActivity(intent)
-
+                    loginViewModel.login(email, password)
+                    isButtonClicked = true
                 },
-                modifier = Modifier
-                    .height(50.dp),
-                shape = MaterialTheme.shapes.extraLarge,
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
-
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "MASUK",
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
+                icon = {
                     Icon(
-                        imageVector = Icons.Default.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "Ikon Panah",
                         modifier = Modifier.size(24.dp),
                         tint = Color.White
                     )
                 }
-            }
+            )
+        }
+
+        // Display the email and password if the button was clicked
+        if (isButtonClicked) {
+            Text(
+                text = "Email: ${loginViewModel.loginRequest?.email ?: ""}",
+                style = TextStyle(fontSize = 16.sp)
+            )
+            Text(
+                text = "Kata Sandi: ${loginViewModel.loginRequest?.password ?: ""}",
+                style = TextStyle(fontSize = 16.sp)
+            )
         }
 
         Spacer(modifier = Modifier.height(80.dp))
@@ -148,18 +136,16 @@ fun LoginContent() {
                 color = PrimaryColor,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable {
-                /* Untuk Daftar */
-
+                    // Navigate to SignUpActivity
                 }
             )
         }
-
     }
 }
 
-// Preview untuk melihat tampilan dari LoginContent
+// Preview for the LoginContent
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginContent() {
-    LoginContent()
+    LoginContent(LoginViewModel())
 }

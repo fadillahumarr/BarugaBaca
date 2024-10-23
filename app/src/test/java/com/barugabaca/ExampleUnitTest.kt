@@ -1,4 +1,4 @@
-package com.example.barugabaca
+package com.barugabaca
 
 import org.junit.Test
 
