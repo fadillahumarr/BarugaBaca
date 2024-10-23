@@ -53,29 +53,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.barugabaca.R
+import com.mobile.barugabaca.presentation.navigation.MyAppNavigation
 import com.mobile.barugabaca.ui.theme.BarugaBacaTheme
 import com.mobile.barugabaca.ui.theme.PrimaryColor
 import com.mobile.barugabaca.ui.theme.SecondaryColor
 
-class MainActivity : ComponentActivity() {
+class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             BarugaBacaTheme {
-                HomeContent()
+                MyAppNavigation()
             }
         }
     }
 }
 
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent(){
+fun HomeContent(navController: NavController){
     var searchQuery by remember { mutableStateOf("") }
 
     val popularBooks = listOf(
@@ -338,15 +338,8 @@ fun BookItem(book: Book) {
     }
 }
 
-
-
-
-
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeContent() {
-    HomeContent()
+    HomeContent(navController = rememberNavController())
 }

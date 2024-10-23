@@ -2,10 +2,12 @@ package com.mobile.barugabaca
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.mobile.barugabaca.presentation.login.LoginActivity
+import com.mobile.barugabaca.presentation.navigation.MyAppNavigation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

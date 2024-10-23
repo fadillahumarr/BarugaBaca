@@ -13,6 +13,9 @@
         android:theme="@style/Theme.BarugaBaca"
         tools:targetApi="31">
         <activity
+            android:name="com.mobile.barugabaca.presentation.MainActivity"
+            android:exported="false" />
+        <activity
             android:name="com.mobile.barugabaca.presentation.login.LoginScreen"
             android:exported="false" />
         <activity

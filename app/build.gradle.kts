@@ -74,7 +74,7 @@ dependencies {
     implementation ("androidx.activity:activity-compose:1.6.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.core:core-splashscreen:1.0.0")
-    implementation("androidx.navigation:navigation-compose:2.8.2")
+    implementation("androidx.navigation:navigation-compose:2.8.3")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.5")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
 

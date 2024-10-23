@@ -19,8 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.mobile.barugabaca.presentation.components.CustomOutlinedTextField
 import com.mobile.barugabaca.presentation.components.PrimaryButton
+import com.mobile.barugabaca.presentation.navigation.MyAppNavigation
+import com.mobile.barugabaca.presentation.navigation.Routes
+import com.mobile.barugabaca.ui.theme.BarugaBacaTheme
 import com.mobile.barugabaca.ui.theme.PrimaryColor
 
 class LoginActivity : AppCompatActivity() {
@@ -29,8 +34,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                LoginContent(loginViewModel)
+            BarugaBacaTheme {
+                MyAppNavigation()
             }
         }
     }
@@ -38,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
 
 // Composable function for login content
 @Composable
-fun LoginContent(loginViewModel: LoginViewModel) {
+fun LoginContent(loginViewModel: LoginViewModel, navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isButtonClicked by remember { mutableStateOf(false) }
@@ -99,6 +104,9 @@ fun LoginContent(loginViewModel: LoginViewModel) {
                 onClick = {
                     loginViewModel.login(email, password)
                     isButtonClicked = true
+
+                    //Navigasi ke HomeActivity
+                    navController.navigate(Routes.Home.route)
                 },
                 icon = {
                     Icon(
@@ -136,7 +144,8 @@ fun LoginContent(loginViewModel: LoginViewModel) {
                 color = PrimaryColor,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable {
-                    // Navigate to SignUpActivity
+                    // Navigasi ke SignUpActivity
+                    navController.navigate(Routes.SignUp.route)
                 }
             )
         }
@@ -147,5 +156,5 @@ fun LoginContent(loginViewModel: LoginViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginContent() {
-    LoginContent(LoginViewModel())
+    LoginContent(LoginViewModel(), navController = rememberNavController())
 }

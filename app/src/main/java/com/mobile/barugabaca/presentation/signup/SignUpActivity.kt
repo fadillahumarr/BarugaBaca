@@ -1,6 +1,5 @@
 package com.mobile.barugabaca.presentation.signup
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -28,24 +27,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.mobile.barugabaca.presentation.components.CustomOutlinedTextField
 import com.mobile.barugabaca.presentation.components.PrimaryButton
-import com.mobile.barugabaca.presentation.login.LoginActivity
+import com.mobile.barugabaca.presentation.navigation.MyAppNavigation
+import com.mobile.barugabaca.presentation.navigation.Routes
+import com.mobile.barugabaca.ui.theme.BarugaBacaTheme
 import com.mobile.barugabaca.ui.theme.PrimaryColor
 
 class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                SignUpContent()
+            BarugaBacaTheme {
+               MyAppNavigation()
             }
         }
 
@@ -53,13 +55,12 @@ class SignUpActivity : AppCompatActivity() {
 }
 
 @Composable
-fun SignUpContent(){
+fun SignUpContent(navController: NavController){
     // State untuk email dan password
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var fullname by remember { mutableStateOf("") }
 
-    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,7 +121,12 @@ fun SignUpContent(){
         ) {
             PrimaryButton(
                 text="DAFTAR",
-                onClick = {},
+                onClick = {
+                    //Logikanya sebelum pindah halaman ke home
+
+                    ////Navigasi ke LoginActivity
+                    navController.navigate(Routes.Login.route)
+                },
                 icon = {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -145,9 +151,9 @@ fun SignUpContent(){
                 color = PrimaryColor,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.clickable {
-                    /* Untuk Beralih ke Halaman Masuk */
-                    val intent = Intent(context, LoginActivity::class.java)
-                    context.startActivity(intent)
+                    ////Navigasi ke LoginActivity
+                    navController.navigate(Routes.Login.route)
+
                 }
             )
         }
@@ -158,5 +164,5 @@ fun SignUpContent(){
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignUpContent() {
-    SignUpContent()
+    SignUpContent(navController = rememberNavController())
 }
